@@ -9,3 +9,5 @@ To USe this repo
 4.install all required package using requirements.txt
 5. change the database name
 6. start server using python manage.pu runserver command to get started with
+
+Note : Few functionality are still under development can be developed if required
