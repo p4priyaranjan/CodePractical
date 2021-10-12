@@ -1,0 +1,50 @@
+{% extends 'Common/base.html' %}
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-sm-8 offset-sm-2">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+  {% endif %}
+  </div>
+  
+  </div>
+    <div class="row">
+        <div class="col-8 offset-sm-2">
+            <form action="" class="shadow p-3 mt-3" method="post">
+            {% csrf_token %}
+                <h2 class="text-primary display-6">Uploaded Files</h2>
+                <hr>
+                <div class="form-control mt-3">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Uploaded File</th>
+                            <th scope="col">View</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for file in files %}
+                          <tr>
+                            <td>File</td>
+                            <td><a href="{{file.my_file.url}}"></a></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+               
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
