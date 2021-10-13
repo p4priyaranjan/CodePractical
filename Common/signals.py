@@ -12,15 +12,15 @@ def login_failed(sender, credentials, **kwargs):
     user=get_object_or_404(CustomUser,phone_number=credentials['phone_number'])
     if user is not None:
         lal=int(user.login_attempts_left)
-        if lal>1:
+        if lal>=2:
             user.login_attempts_left=lal-1
             user.save()
         else:
-           user.login_attempts_left=lal-1
-            user.is_active=False
-            user.save()
-            cache.set('Is_User_Locked', True, 60*5, version=user.pk)
-
+            if lal !=0:
+                user.login_attempts_left=lal-1
+                user.is_active=False
+                user.save()
+                cache.set('Is_User_Locked', True, 60*5, version=user.pk)
 
 @receiver(post_save, sender=CustomUser)
 def registration_success(sender,instance,created, **kwargs):
