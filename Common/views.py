@@ -19,14 +19,26 @@ class UserLogin(View):
         if fm.is_valid():
             uname=fm.cleaned_data['username']
             upass=fm.cleaned_data['password']
-            user=authenticate(username=uname,password=upass)
-            print(user)
+            user=get_object_or_404(CustomUser,phone_number=uname)
+#             print(user)
             if user is not None:
-                login(request,user)
-                messages.success(request,'User Logged In Successfully')
-                return HttpResponseRedirect('/dashboard/')
+                locked = cache.get('Is_User_Locked', False, version=user.pk)
+#                 print(locked)
+                if not locked:
+                    user.is_active=True
+                    user.login_attempts_left=3
+                    user.save()
+                    user=authenticate(username=uname,password=upass)
+                    print(user)
+                    if user is not None:
+                        login(request,user)
+                        messages.success(request,'User Logged In Successfully')
+                        return HttpResponseRedirect('/dashboard/')
+                    else:
+                        return HttpResponseRedirect('/userlogin/')
+                else:
+                    return HttpResponseRedirect('/userlogin/') 
             else:
-               
                 return HttpResponseRedirect('/userlogin/')
         fm=LoginForm(request.POST)
         return render(request,'Common/login.html',{'form':fm})
