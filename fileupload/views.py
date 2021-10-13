@@ -11,23 +11,23 @@ from django.contrib.auth.decorators import login_required
 class UserFileView(View):
     def get(self,request,*args, **kwargs):
         fm=UserFileForm()
-        print(fm)
+        # print(fm)
         return render(request,'fileupload/addfile.html',{'form':fm})
 
     def post(self,request,*args, **kwargs):
         form=UserFileForm(request.POST,request.FILES)
         if form.is_valid():
             print(form)
-            file=form.cleaned_data['myfile']
+            file=form.cleaned_data['my_file']
             user=request.user
             fi=UserFile(file,user)
             fi.save()
             return HttpResponseRedirect('/dashboard/')
         fm=UserFileForm(request.POST)
-        return render(request,'Common/add.html',{'form':fm})
+        return render(request,'Common/addfile.html',{'form':fm})
 
 @method_decorator(login_required, name='dispatch')
 class DashboardView(View):
     def get(self,request,*args, **kwargs):
         file=UserFile.objects.filter(user=request.user)
-        return render(request,'fileupload/dashboard.html',{'files':file})
+        return render(request,'fileupload/dashboard.html',{'fs':file})
