@@ -1,4 +1,5 @@
 {% extends 'Common/base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container">
 <div class="row">
@@ -20,10 +21,7 @@
             {% csrf_token %}
                 <h2 class="text-primary display-6">File Upload</h2>
                 <hr>
-                <div class="form-control mt-3">
-                    <label for="txtFileUpload">Select File</label>
-                    <input required name='myfile' type='file' class='form-control-file'>
-                     </div>
+                {{form|crispy}}
                 <button type="submit" class="btn btn-primary">Submit</button>
                
             </form>
