@@ -24,16 +24,15 @@
                     <table class="table table-striped">
                         <thead>
                           <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Uploaded File</th>
-                            <th scope="col">View</th>
+                            <th scope="col">Downlaod</th>
                           </tr>
                         </thead>
                         <tbody>
-                            {% for file in files %}
+                            {% for file in fs %}
                           <tr>
-                            <td>File</td>
-                            <td><a href="{{file.my_file.url}}"></a></td>
+                            <td>{{file.my_file}}</td>
+                            <td><a href="{{file.my_file.url}}">Download</a></td>
                           </tr>
                           {% endfor %}
                         </tbody>
