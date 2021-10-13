@@ -25,7 +25,7 @@ class UserLogin(View):
                 locked = cache.get('Is_User_Locked', False, version=user.pk)
 #                 print(locked)
                 if not locked:
-                    user.is_active=True
+#                     user.is_active=True
                     user.login_attempts_left=3
                     user.save()
                     user=authenticate(username=uname,password=upass)
