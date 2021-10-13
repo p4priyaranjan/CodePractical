@@ -36,7 +36,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     is_staff=models.BooleanField(default=True)
     is_active=models.BooleanField(default=True)
     phone_number=models.BigIntegerField(blank=False,unique=True)
-    login_attempts_left=models.IntegerField(default=3)
+    login_attempts_left=models.PositiveIntegerField(default=3)
 
     USERNAME_FIELD='phone_number'
     REQUIRED_FIELDS=['user_name','first_name','last_name','email']
