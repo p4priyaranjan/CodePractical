@@ -3,6 +3,7 @@ from .models import CustomUser
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.shortcuts import get_object_or_404
+from django.core.cache import cache
 # from django.contrib.gis.utils import GeoIP
 
 @receiver(user_login_failed,)
@@ -11,24 +12,29 @@ def login_failed(sender, credentials, **kwargs):
     user=get_object_or_404(CustomUser,phone_number=credentials['phone_number'])
     if user is not None:
         lal=int(user.login_attempts_left)
-        if lal>0:
+        if lal>1:
             user.login_attempts_left=lal-1
+            user.save()
         else:
+           user.login_attempts_left=lal-1
             user.is_active=False
+            user.save()
+            cache.set('Is_User_Locked', True, 60*5, version=user.pk)
 
 
 @receiver(post_save, sender=CustomUser)
-def registration_success(sender, request, instance,created, **kwargs):
+def registration_success(sender,instance,created, **kwargs):
     if created:
-        ip = request.META.get('REMOTE_ADDR', None)
+        pass
+#         ip = request.META.get('REMOTE_ADDR', None)
         # gip=GeoIP()
-        if ip:
-            request.session['ip'] = ip
-            # request.session['city'] = gip.city(ip)['city']
-            # request.session['country']=gip.country(ip)['country']
-            request.session['city'] = 'NA' 
-            request.session['country']='NA'
-        else:
-            request.session['city'] = 'NA' 
-            request.session['country']='NA'
+#         if ip:
+#             request.session['ip'] = ip
+#             # request.session['city'] = gip.city(ip)['city']
+#             # request.session['country']=gip.country(ip)['country']
+#             request.session['city'] = 'NA' 
+#             request.session['country']='NA'
+#         else:
+#             request.session['city'] = 'NA' 
+#             request.session['country']='NA'
     
