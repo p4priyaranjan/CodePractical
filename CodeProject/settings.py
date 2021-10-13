@@ -146,3 +146,11 @@ AUTH_USER_MODEL='Common.CustomUser'
 STATIC_ROOT=BASE_DIR / 'static'
 
 # AUTHENTICATION_BACKENDS = ['Common.authentication.UserAuthentication']
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'code_cache',
+    }
+}
+
