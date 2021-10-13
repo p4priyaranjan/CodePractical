@@ -33,8 +33,8 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     user_name=models.CharField(max_length=20,blank=False,unique=True)
     first_name=models.CharField(max_length=30)
     last_name=models.CharField(max_length=30)
-    is_staff=models.BooleanField(default=False)
-    is_active=models.BooleanField(default=False)
+    is_staff=models.BooleanField(default=True)
+    is_active=models.BooleanField(default=True)
     phone_number=models.BigIntegerField(blank=False,unique=True)
     login_attempts_left=models.IntegerField(default=3)
 
