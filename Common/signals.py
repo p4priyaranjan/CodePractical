@@ -18,7 +18,7 @@ def login_failed(sender, credentials, **kwargs):
         else:
             if lal !=0:
                 user.login_attempts_left=lal-1
-                user.is_active=False
+#                 user.is_active=False
                 user.save()
                 cache.set('Is_User_Locked', True, 60*5, version=user.pk)
 
